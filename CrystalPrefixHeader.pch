@@ -1,0 +1,250 @@
+//
+//  CrystalPrefixHeader.pch
+//  水晶球财经
+//
+//  Created by Tom lu on 15/10/28.
+//  Copyright © 2015年 com.sjqcj. All rights reserved.
+//
+#import "AFNetworking.h"
+#import "BaseViewController.h"
+#import "MBProgressHUD.h"
+#import "MBProgressHUD+MJ.h"
+#import "CommonMethod.h"
+#import "UIImageView+WebCache.h" //图片缓存
+#import "UserInfo.h"
+#import "UIViewExt.h"
+#import "MJRefresh.h"
+#import "MJPhotoBrowser.h"
+#import "MJPhoto.h"
+#import "UIColor+Extention.h"
+#import "UIAlertView+Blocks.h"
+#import "UIActionSheet+Blocks.h"
+
+#ifndef CrystalPrefixHeader_pch
+#define CrystalPrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+/** 颜色 */
+#define SJColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1]
+
+/** 随机色 */
+#define SJRandomColor SJColor(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
+
+/** app背景色 */
+#define APPBackColor [UIColor colorWithRed:240/255.0 green:240/255.0 blue:242/255.0 alpha:1.0]
+
+
+/** 股票线颜色 */
+#define StockRedColor [UIColor colorWithRed:233/255.0 green:47/255.0 blue:68/255.0 alpha:1.0]
+#define StockGreenColor [UIColor colorWithRed:33/255.0 green:179/255.0 blue:77/255.0 alpha:1.0]
+
+
+/** 三方登录参数传递的不同 */
+#define LoginOrTokey [[NSUserDefaults standardUserDefaults]valueForKey:@"SJtype"] == nil?@"login_password":@"tokey"
+/** 屏幕宽度 */
+#define SCREENWIDTH  [UIScreen mainScreen].bounds.size.width
+/** 屏幕高度 */
+#define SCREENHEIGHT [UIScreen mainScreen].bounds.size.height
+
+// 是否为4inch
+#define FourInch ([UIScreen mainScreen].bounds.size.height == 568.0)
+#define ip4 ([UIScreen mainScreen].bounds.size.height == 480.0)
+#define PassIp6 ([UIScreen mainScreen].bounds.size.height >= 667.0)
+#define ip6 ([UIScreen mainScreen].bounds.size.height == 667.0)
+#define ip6p ([UIScreen mainScreen].bounds.size.height == 736.0)
+// 融云相关
+#define iPhone6                                                                \
+([UIScreen instancesRespondToSelector:@selector(currentMode)]                \
+? CGSizeEqualToSize(CGSizeMake(750, 1334),                              \
+[[UIScreen mainScreen] currentMode].size)           \
+: NO)
+#define iPhone6Plus                                                            \
+([UIScreen instancesRespondToSelector:@selector(currentMode)]                \
+? CGSizeEqualToSize(CGSizeMake(1242, 2208),                             \
+[[UIScreen mainScreen] currentMode].size)           \
+: NO)
+
+
+#define RGB(A,B,C) [UIColor colorWithRed:A/255.0 green:B/255.0 blue:C/255.0 alpha:1.0]
+
+#define DefaultUserImage [UIImage imageNamed:@"man"]  
+
+#define Helvetica(SIZE) [UIFont fontWithName:@"Helvetica" size:(SIZE)]  //体字
+#define TEXTFONTTHICK(SIZE) [UIFont fontWithName:@ "Helvetica-Bold"  size:(SIZE)]  //粗体字
+#define TEXTCOLOR  RGB(68, 68, 68)          //主字体颜色
+#define TEXTSIZE   17                       //主题文字 大小
+#define TEXTSIZESMALL    14                 //辅文字  大小
+#define TEXTCOLORLIGHT RGB(150, 150, 150)  //浅色字体颜色
+
+#define UISystemFont(Size) [UIFont systemFontOfSize:Size]
+
+#define UIboldSystemFont(Size) [UIFont boldSystemFontOfSize:Size]
+
+
+
+
+////去除所有图片     \<img.*?src\=\"(.*?)\"[^>]*>/i
+
+/////////////////////////////////////////////////////////////////////////////////
+//#define MainUrl @"http://192.168.1.199/index.php?"  //  ip地址
+#define MainUrl @"http://www.sjqcj.com/index.php?"  //  ip地址
+#define MainImg @"http://www.sjqcj.com/data/upload/avatar" //上传 更换用户图片前面路径
+#define WeiBoImg @"http://www.sjqcj.com/data/upload/"      //获取 （图片短微博的）图片
+
+
+/**\\\\\\\\\\\\\\\\\\\\\\
+ */
+#define AppdoOtherStep @"app=index&mod=Index&act=AppdoOtherStep"  //第三方注册账号并绑定API
+#define Url_Login_QQ  @"app=index&mod=Index&act=app_w3g_no_register_display" //qq登陆成功以后将token发送到我们的后头
+
+#define Url_Login    @"app=public&mod=Passport&act=AppLogin"   //登录
+#define Url_Enroll   @"app=public&mod=Register&act=AppRegister"  //注册
+
+#define Url_GoodPost @"app=index&mod=Index&act=Appindex" //首页-精华微博
+
+#define Url_BigMan   @"app=index&mod=Index&act=APPUserSort" //首页-牛人列表
+#define Url_OnePost  @"app=public&mod=Profile&act=Appfeed"  //某一个博客详情
+#define Url_OnePost_Comment @"app=public&mod=Profile&act=AppComment" //一个帖子的回复
+
+
+#define Url_StockRank   @"app=public&mod=AppFeedList&act=AppTodayBallot"    //选股比赛 当日牛股榜 当周牛股榜
+#define Url_StockRank_Week @"app=public&mod=AppFeedList&act=AppBallotWeek"  //选股比赛 周积分榜 周数
+#define Url_StockRank_Week_Dtail @"app=public&mod=AppFeedList&act=AppListWeekBallot" //选股比赛周积分榜 某一周详情
+#define Url_Function_StockGame  @"app=public&mod=AppFeedList&act=AppBallot" //选股比赛 当周实时数据 (名人组 精英组)
+#define Url_StockRank_New @"app=public&mod=AppFeedList&act=AppNewsBallot"   //选股比赛 赛程报道
+#define Url_Function_StockGame_Zome @"app=public&mod=AppContent&act=render"  //选股比赛-讨论区
+#define Url_StockRank_AllScroeRank @"app=public&mod=AppFeedList&act=AppTopBallot" //选股比赛 总积分排名
+
+#define Url_Function_StockGame_MySelectStock @"app=public&mod=AppFeedList&act=Appaddbattol" //我来选股
+
+#define Url_Function_StockKind @"app=public&mod=AppFeedList&act=AppStarcraft"  //股王争霸赛
+#define Url_Good_DayStock  @"app=public&mod=AppFeedList&act=AppBallotRanking"  //首页-当日牛股榜 选股比赛 新闻咨询
+
+
+
+//#define Url_FinanceFocus  @"app=public&mod=Profile&act=AppCentre"   //新闻-财经焦点列表
+#define Url_FinanceFocus  @"app=public&mod=Profile&act=AppNewsZx"   //新闻-财经焦点列表
+#define Url_UserInfo @"app=public&mod=Profile&act=AppUser"  //用户中心-用户信息
+#define Url_UserInfo_Money @"app=public&mod=Profile&act=AppUserMoney"//用户中心-财富信息
+#define Url_UserInfo_ChangeInfo  @"app=public&mod=AppFeedList&act=AppSaveProfile" //用户中心-修改用户信息
+#define Url_UserInfo_UploadHeadImage @"app=public&mod=AppFeedList&act=AppSaveAvatar&step=upload" //上传用户头像
+#define Url_UserInfo_ChangeHeadImage @"app=public&mod=AppFeedList&act=AppSaveAvatar&step=save" //跟新用户头像
+#define Url_UserInfo_MyCareList @"app=public&mod=AppFeedList&act=AppFollowing"   //我关注的列表
+#define Url_UserInfo_MyFansList @"app=public&mod=AppFeedList&act=AppFollower"    //我的粉丝列表
+#define Url_UserInfo_ChangePwd @"app=public&mod=AppFeedList&act=AppdoModifyPassword"  //个人中心-修改密码
+#define Url_UserInfo_MyCollection  @"app=public&mod=AppFeedList&act=AppCollection"    //个人中心 我的收藏微博
+//#define Url_UserInfo_MyCollection @"app=public&mod=AppFeedList&act=MyCollection"       //个人中心 我的收藏微博new
+#define Url_UserInfo_AddTention   @"app=public&mod=AppFeedList&act=AddFollow"         //用户中心 加关注
+#define Url_UserInfo_CancelTention @"app=public&mod=AppFeedList&act=DelFollow"        //用户中心 取消关注
+#define Url_UserInfo_GetPrivateStatua @"app=public&mod=AppFeedList&act=Messages"      //用户中心 获取是否有私信存在
+#define Url_UserInfo_startPrivate @"app=public&mod=AppFeedList&act=AppdoPost"         //用户中心 发起私信
+#define Url_Login_GetVerification  @"app=public&mod=Register&act=verification"   //获取验证码
+
+
+#define Url_ForGot_GetVerification  @"app=public&mod=Register&act=modifyVerification"   //找回密码-获取验证码
+#define Url_ForGot_ResetPassword  @"app=public&mod=Passport&act=AppDoResetPassword"   //找回密码-重新设置
+
+
+#define Url_FinanceFocus_OneNews @"app=public&mod=Profile&act=Appnews" //新闻-财经焦点详情
+
+#define Url_Bar_Post_List @"app=public&mod=FeedListMini&act=loadMore"   //股吧-全部微博   个人中心-我的微博
+#define Url_Bar_PayList @"app=public&mod=AppFeedList&act=SubscribeList"//股吧－付费微博
+#define Url_Post_MySubscribe @"app=public&mod=FeedListMini&act=MySubscribe"  //用户中心的微博     我订阅的微博
+
+#define Url_Post_List     @"app=public&mod=FeedListMini&act=OrderloadMore"  //用户中心的微博     我收藏的微博
+#define Url_Post_List_DeleteOne   @"app=public&mod=AppFeedList&act=AppremoveFeed"  //我的微博删除一条微博
+#define Url_Bar_Top @"app=public&mod=AppFeedList&act=Left_feed_top" //股吧-置顶微博
+
+#define Url_Bar_ShortPost_UploadImage @"app=public&mod=AppFeedList&act=AppUpload"  //股吧-短微博-图片上传
+#define Url_Bar_Post_Upload   @"app=public&mod=AppFeedList&act=AppPostFeed"   //股吧 上传短微博数据 含图片  长微博也是这个
+#define Url_Bar_LongPost_UploadImage @"app=public&mod=AppFeedList&act=saveEditorImg&dir=image" //股吧-长微博-图片上传
+
+#define Url_Post_Appreward @"app=public&mod=AppFeedList&act=Appreward" // 打赏接口
+
+#define Url_Post_Dig  @"app=public&mod=AppFeedList&act=AddDigg"// 对帖子点赞
+#define Url_Post_DeDig @"app=public&mod=AppFeedList&act=DelDigg" //帖子详情-取消点赞
+
+#define Url_Post_Collect @"app=public&mod=AppFeedList&act=AddCollection" //贴子详情-收藏
+#define Url_Post_UnCollect @"app=public&mod=AppFeedList&act=DelCollection" //帖子详情-取消收藏
+#define Url_Post_Forward  @"app=public&mod=AppFeedList&act=AppForward" //帖子详情-转发
+#define Url_Post_AiTeList     @"app=public&mod=AppFeedList&act=AppFriendGroup"   //编辑微博 @自己的全部好友 
+#define Url_Post_AiTeOne    @"app=public&mod=AppFeedList&act=search"   //编辑文字 同时 @某个人
+#define Url_Post_UserSearch    @"app=public&mod=AppFeedList&act=usersearch"   //搜索用户
+#define Url_Post_Comment     @"app=public&mod=AppFeedList&act=Appaddcomment"  // 帖子-评论  回复
+#define Url_Delete_Tweeted @"app=public&mod=AppFeedList&act=Appdelcomment" //消息-删除发出的评论
+
+
+#define Url_Message_MyCommentList @"app=public&mod=AppFeedList&act=MyComment" //消息-我的评论-我收到的评论
+#define Url_Message_AboutMe   @"app=public&mod=AppFeedList&act=AppMention"   //消息 - @提到我的
+
+#define Url_AeTeFriendList  @"app=public&mod=AppFeedList&act=AppFriendGroup" //  编辑，回复某好友的时候
+#define Url_Message_PrivateList @"app=public&mod=AppFeedList&act=Message"   //消息-私信
+
+#define Url_Message_ChatDetail @"app=public&mod=AppFeedList&act=MessageDetail"   // 私信列表 - 私信详情
+#define Url_Message_ReplyMessage @"app=public&mod=AppFeedList&act=AppdoReply"    // 私信列表 - 回复私信
+#define Url_Message_SystemMessage @"app=public&mod=AppFeedList&act=SystemMessage" // 消息- 系统消息
+
+
+#define Url_User_crystalBwater @"app=public&mod=AppFeedList&act=crystalBwater"//用户中心-水晶币流动
+#define Url_Home_globalSwf @"app=public&mod=AppFeedList&act=GlobalSwf"//首页-图片轮播
+#define Url_Feed_PlayAMan @"app=public&mod=AppFeedList&act=PlayAMan"//打赏列表
+
+/**上传凭证到服务器
+ */
+#define Url_uplode_purchase @"app=public&mod=Account&act=purchase_voucher"
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+#define SYSTEMVERSION [[[UIDevice currentDevice] systemVersion] floatValue]    //系统版本号
+#define PLACEHOLDERIMAGE [UIImage imageNamed:@"默认头像"]
+#define NoNetworkingMsg @"没有数据"
+
+
+#pragma mark- 缓存  00，第一位数代表tabbar 的几个，第二位数代表tabbar 的几个中得更新版本确保升级的时候唯一 dzq add
+//轮播图片缓存地址
+#define globalSwf_Path [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"globalSwf.plist"]
+
+
+//获取本地数据
+#define documentsDirectory NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0]
+
+//首页缓存
+/**首页-三个文章*/
+#define goodContentPath [documentsDirectory stringByAppendingPathComponent:@"goodContent_01.plist"]
+
+//股吧缓存
+/**股吧-全部内容,没用*/
+#define allDataPath [documentsDirectory stringByAppendingPathComponent:@"allData_11.plist"]
+
+/**收到消息*/
+#define ReceivedDataPath [documentsDirectory stringByAppendingPathComponent:@"ReceivedData21.plist"]
+/**发出消息*/
+#define TweetedDataPath [documentsDirectory stringByAppendingPathComponent:@"TweetedData21.plist"]
+/**@到我的消息*/
+#define AiTeMePath [documentsDirectory stringByAppendingPathComponent:@"AiTeMeData21.plist"]
+
+
+//咨询缓存
+/**咨询缓存*/
+#define NewsPath [documentsDirectory stringByAppendingPathComponent:@"News_31.plist"]
+
+
+//我的
+/**我的微博缓存*/
+#define myWeiBoPath [documentsDirectory stringByAppendingPathComponent:@"myWeiBo_41.plist"]
+/**我的关注缓存*/
+#define myAttentionPath [documentsDirectory stringByAppendingPathComponent:@"myAttention_41.plist"]
+/**我的微博缓存*/
+#define myDingYuePath [documentsDirectory stringByAppendingPathComponent:@"myDingYue_41.plist"]
+/**我的微博缓存*/
+#define myCollectPath [documentsDirectory stringByAppendingPathComponent:@"myCollect_41.plist"]
+
+
+//归档,存在偏好设置里面的
+#define WeiBoList @"WeiBoList11"//股吧列表
+#define PayWeiBoList @"PayWeiBoList11"//股吧打赏
+
+#endif /* CrystalPrefixHeader_pch */
